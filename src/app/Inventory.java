@@ -2,14 +2,13 @@ package app;
 
 import java.util.*;
 
-class AddInventory {
+class Inventory {
     private Map<String, Integer> inventory = new HashMap<>();
 
-    AddInventory(String item, int amount) {
+    void AddInventory(String item, int amount) {
         if (inventory.containsKey(item)) {
             int stock = inventory.get(item);
             inventory.put(item, stock + amount);
-
             int newstock = inventory.get(item);
             System.out.println("New Stock of " + item + ": " + newstock);
         } else {
@@ -19,10 +18,8 @@ class AddInventory {
     }
 
     void displayInventory() {
-        Set<Map.Entry<String, Integer>> dI = inventory.entrySet();
-        for (Map.Entry<String, Integer> ite : dI) {
-            System.out.println(ite.getValue());
-        }
+        System.out.println("\nItem\t\tValue");
+        for (Map.Entry<String, Integer> entry : inventory.entrySet())
+            System.out.println(entry.getKey() + "\t\t" + entry.getValue());
     }
-
 }
