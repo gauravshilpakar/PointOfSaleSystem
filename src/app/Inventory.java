@@ -20,12 +20,27 @@ class Inventory {
     Scanner in1 = new Scanner(System.in);
 
     void addInventory() {
-        System.out.println("Enter name of the item: ");
+        System.out.println("Enter a Item name: ");
+        while (in1.hasNext("")) {
+            System.out.println("Thats not a name");
+            in1.next();
+        }
         String itemName = in1.nextLine();
-        System.out.println("Enter price of item: ");
-        double price = in1.nextInt();
-        System.out.println("Enter quantiy: ");
+
+        System.out.println("Enter price: ");
+        while (!in1.hasNextDouble()) {
+            System.out.println("Input valid Integer");
+            in1.next();
+        }
+        double price = in1.nextDouble();
+
+        System.out.println("Enter Stock: ");
+        while (!in1.hasNextInt()) {
+            System.out.println("Input valid Integer");
+            in1.next();
+        }
         int stock = in1.nextInt();
+
         if (Inventory.containsKey(itemName)) { // updating stock
             Inventory.get(itemName).stock += stock;
             if (Inventory.get(itemName).price != price) // updating price
@@ -49,6 +64,10 @@ class Inventory {
 
     void quickLookup() {
         System.out.println("Enter the item name: ");
+        while (in1.hasNext("")) {
+            System.out.println("Thats not a name");
+            in1.next();
+        }
         String itemName = in1.nextLine();
         if (Inventory.containsKey(itemName)) {
             System.out.println("Item\t\tQuantity\t\tPrice");
