@@ -60,6 +60,7 @@ public class App {
                 break;
 
             case (4):
+                inventory.reporting();
                 break;
 
             case (5):

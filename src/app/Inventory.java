@@ -57,9 +57,24 @@ class Inventory {
         } else {
             System.out.println("Item not found!\n");
         }
-
     }
 
+
+    void reporting() {
+        Set<Map.Entry<String, data>> entrySet = Inventory.entrySet();
+        System.out.println("The following items are out of stock: ");
+        for (Map.Entry<String, data> entry : entrySet) {
+            data data1 = entry.getValue();
+            if (data1.stock < 5){
+            System.out.println(entry.getKey());
+            }
+
+            //System.out.printf("%s :\t %d %n", worker.getName(),
+              //      worker.getSalary());
+    }
+}
+
+}
     // class oldStock extends Inventory {
 
     // @Override
@@ -67,4 +82,4 @@ class Inventory {
 
     // }
     // }
-}
+
