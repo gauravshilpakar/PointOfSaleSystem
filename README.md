@@ -1,1 +1,1 @@
-store_java 
+store_java

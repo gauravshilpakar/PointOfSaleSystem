@@ -18,8 +18,8 @@ class Inventory {
     }
 
     void displayInventory() {
-        System.out.println("\nItem\t\tValue");
+        System.out.println("\nItem\t\t\tValue");
         for (Map.Entry<String, Integer> entry : inventory.entrySet())
-            System.out.println(entry.getKey() + "\t\t" + entry.getValue());
+            System.out.println(entry.getKey() + "\t\t\t" + entry.getValue());
     }
 }
