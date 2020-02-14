@@ -1,16 +1,49 @@
 package app;
 
 import java.util.*;
+import java.util.Scanner;
 
 public class App {
 
-    static Map<String, data> inventory = new HashMap<>();
-
     public static void main(String[] args) {
-        // inventory.displayInventory();
-    }
-}
+        Scanner input = new Scanner(System.in);
+        Inventory inventory = new Inventory();
+        int number;
+        do {
+            System.out.println("Welcome to Application");
+            System.out.println("Enter 1 for Add Inventory");
+            System.out.println("Enter 2 for Display all Items");
+            System.out.println("Enter 3 for Quicklookup");
+            System.out.println("Enter 4 for Reporting");
+            System.out.println("Enter 5 for Sales");
+            System.out.println("Enter 6 to terminate application");
+            number = input.nextInt();
 
-class data {
-    int price, count;
+            switch (number) {
+            case (1):
+                inventory.AddInventory();
+                break;
+
+            case (2):
+                inventory.displayInventory();
+                break;
+
+            case (3):
+                inventory.Quicklookup();
+                break;
+
+            case (4):
+                break;
+
+            case (5):
+                break;
+
+            case (6):
+                break;
+
+            }
+
+        } while (number != 6);
+        input.close();
+    }
 }
