@@ -5,24 +5,48 @@ import java.util.*;
 public class App {
 
     public static void main(String[] args) {
-<<<<<<< HEAD
-=======
 
->>>>>>> 410304e898bafdb537fe325a60257a52a7959737
-        Scanner input = new Scanner(System.in);
         Inventory inventory = new Inventory();
-        int number;
-        do {
-            System.out.println("Welcome to Application");
-            System.out.println("Enter 1 for Add Inventory");
-            System.out.println("Enter 2 for Display all Items");
-            System.out.println("Enter 3 for Quicklookup");
-            System.out.println("Enter 4 for Reporting");
-            System.out.println("Enter 5 for Sales");
-            System.out.println("Enter 6 to terminate application");
-            number = input.nextInt();
+        // inventory.addInventory();
 
-            switch (number) {
+        Scanner input = new Scanner(System.in);
+
+        int number = 0;
+        System.out.println("---------------------------------");
+        System.out.println("Welcome to Application");
+
+        while (number != 6) {
+            System.out.println("---------------------------------");
+            System.out.println("Enter 1\t\tAdd Inventory");
+            System.out.println("Enter 2\t\tDisplay all Items");
+            System.out.println("Enter 3\t\tQuicklookup");
+            System.out.println("Enter 4\t\tReporting");
+            System.out.println("Enter 5\t\tSales");
+            System.out.println("Enter 6\t\tTerminate");
+            boolean notInt = true;
+
+            // validates input for an integer and if within range
+            while (notInt) {
+                try {
+                    while (true) {
+                        System.out.println("\nYour Number? ");
+                        String value = input.nextLine();
+                        number = Integer.parseInt(value);
+                        if (number <= 6 & number >= 1) {
+                            break;
+                        }
+                        System.out.println("Please Enter Number Within Range!");
+                    }
+                    notInt = false;
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Please Enter an Integer!");
+                    continue;
+                }
+            }
+            switch (number)
+
+            {
             case (1):
                 inventory.addInventory();
                 break;
@@ -42,11 +66,11 @@ public class App {
                 break;
 
             case (6):
+                System.out.println("Terminating!\n");
                 break;
 
             }
-
-        } while (number != 6);
+        }
         input.close();
     }
 }
