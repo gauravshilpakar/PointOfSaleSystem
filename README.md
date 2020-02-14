@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-store_java
-=======
 Store Application (Point of Sale): CS 3365 Team Based Project Proposal 
 
     
@@ -23,4 +20,4 @@ A Java application that allows purchase, inventory and financial management of g
 * Credit/Cash Transactions 
 * Intuitive Graphical User Interface 
 * Automatically make order list for out of stock inventory and send to respective vendors
->>>>>>> 50125e74c29de8786b49c5967a109968be22f072
+
