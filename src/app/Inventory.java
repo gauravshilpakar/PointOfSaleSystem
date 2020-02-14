@@ -3,12 +3,24 @@ package app;
 import java.util.*;
 import java.util.Scanner;
 
+class data {
+    // update this to a database???
+
+    int stock;
+    double price;
+
+    public data(int stock, double price) {
+        this.stock = stock;
+        this.price = price;
+    }
+}
+
 class Inventory {
     public static HashMap<String, data> Inventory = new HashMap<>();
 
-    void AddInventory() {
+    void addInventory() {
         Scanner input = new Scanner(System.in);
-        System.out.println("Enter name of the Item:");
+        System.out.println("Enter name of the item: ");
         String itemName = input.nextLine();
         System.out.println("Enter price of item: ");
         double price = input.nextInt();
@@ -23,29 +35,23 @@ class Inventory {
             Inventory.put(itemName, new data(stock, price));
             System.out.println(itemName + " added to inventory.\n");
         }
+        input.close();
     }
 
     void displayInventory() {
         System.out.println("\nItem\t\tQuantity\t\tPrice");
-        for (Map.Entry<String, data> entry : Inventory.entrySet())
+        for (Map.Entry<String, data> entry : Inventory.entrySet()) {
             System.out.println(entry.getKey() + "\t\t" + entry.getValue().stock + "\t\t" + entry.getValue().price);
+        }
+        System.out.println("\n");
     }
 
-    void Quicklookup() {
+    void quickLookup() {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the item name: ");
         String itemName = input.nextLine();
         System.out.println("Item\t\tQuantity\t\tPrice");
         System.out.println(itemName + "\t\t" + Inventory.get(itemName).stock + "\t\t" + Inventory.get(itemName).price);
-    }
-}
-
-class data {
-    int stock;
-    double price;
-
-    public data(int stock, double price) {
-        this.stock = stock;
-        this.price = price;
+        input.close();
     }
 }
