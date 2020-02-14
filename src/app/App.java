@@ -5,6 +5,10 @@ import java.util.*;
 public class App {
 
     public static void main(String[] args) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 410304e898bafdb537fe325a60257a52a7959737
         Scanner input = new Scanner(System.in);
         Inventory inventory = new Inventory();
         int number;
