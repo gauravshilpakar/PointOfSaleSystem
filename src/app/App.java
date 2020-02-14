@@ -64,6 +64,7 @@ public class App {
                 break;
 
             case (5):
+                inventory.sales();
                 break;
 
             case (6):

@@ -79,17 +79,33 @@ class Inventory {
     }
 
 
+    void sales() { 
+        Scanner in2 = new Scanner(System.in);
+        System.out.println("Enter name of item you want to buy: ");
+        String itemName = in2.nextLine();
+        if (Inventory.containsKey(itemName)) {
+            System.out.println("How many units of " + itemName + " do you want to buy? ");
+            int itemQuantity = in2.nextInt();  
+        if (itemQuantity > Inventory.get(itemName).stock){
+            System.out.println("Unfortunately " + itemQuantity + " units of " +  itemName + "is not currently in our stock ! ");         
+        }    
+        else {
+            Inventory.get(itemName).stock -= itemQuantity;
+        }
+        }
+        else{
+            System.out.println("This item is not in our inventory !! ");
+        }
+    }
+
     void reporting() {
         Set<Map.Entry<String, data>> entrySet = Inventory.entrySet();
-        System.out.println("The following items are out of stock: ");
+        System.out.println("The following items are low in stock: ");
         for (Map.Entry<String, data> entry : entrySet) {
             data data1 = entry.getValue();
             if (data1.stock < 5){
             System.out.println(entry.getKey());
-            }
-
-            //System.out.printf("%s :\t %d %n", worker.getName(),
-              //      worker.getSalary());
+            }       
     }
 }
 
