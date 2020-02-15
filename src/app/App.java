@@ -60,10 +60,11 @@ public class App {
                 break;
 
             case (4):
-                inventory.reporting();
+                inventory.printReport();
                 break;
 
             case (5):
+                inventory.displayInventory();
                 inventory.sales();
                 break;
 
