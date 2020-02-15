@@ -61,6 +61,7 @@ public class App {
                 break;
 
             case (4):
+                inventory.printReport();
                 break;
 
             case (5):

@@ -17,6 +17,7 @@ class data {
 
 class Inventory {
     public static HashMap<String, data> Inventory = new HashMap<>();
+    public static HashMap<String, data> Sold = new HashMap<>();
 
     void addInventory() {
         System.out.println("\nAdding items to inventory!");
@@ -52,6 +53,7 @@ class Inventory {
             Inventory.put(itemName, new data(stock, price));
             System.out.println(itemName + " added to inventory.\n");
         }
+
     }
 
     void displayInventory() {
@@ -101,13 +103,19 @@ class Inventory {
                     Inventory.get(itemName).stock -= itemQuantity;
                     System.out.println("You bought " + itemQuantity + " " + itemName + " at price "
                             + itemQuantity * Inventory.get(itemName).price);
+
+                    if (Sold.containsKey(itemName)) {
+                        Sold.get(itemName).stock += itemQuantity;
+                    } else {
+                        Sold.put(itemName, new data(itemQuantity, Inventory.get(itemName).price * itemQuantity));
+
+                    }
                 }
-            } else {
-                System.out.println("This item is not in our inventory!");
             }
         } else {
             System.out.println("Nothing in inventory!");
         }
+
     }
 
     void checkStock() {
@@ -118,6 +126,24 @@ class Inventory {
             if (data1.stock < 5) {
                 System.out.println(entry.getKey());
             }
+        }
+    }
+
+    void printReport() {
+        int totalQuantity = 0;
+        double totalAmount = 0;
+
+        if (!Sold.isEmpty()) {
+            System.out.println("\nItem\t\tQuantity\tPrice");
+
+            for (Map.Entry<String, data> entry : Sold.entrySet()) {
+                System.out.println(entry.getKey() + "\t\t" + entry.getValue().stock + "\t\t" + entry.getValue().price);
+                totalQuantity += entry.getValue().stock;
+                totalAmount += entry.getValue().price;
+            }
+            System.out.println("\nTotal\t\t" + totalQuantity + "\t\t" + totalAmount);
+        } else {
+            System.out.println("No Items Sold");
         }
     }
 }
