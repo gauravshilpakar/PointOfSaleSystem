@@ -2,7 +2,7 @@ package app;
 
 import java.util.*;
 
-class report {
+class Report {
 
     public String name_of_Sitems;
     public int qty_of_Sitems;
