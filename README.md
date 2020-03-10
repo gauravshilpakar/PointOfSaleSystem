@@ -1,17 +1,17 @@
-Store Application (Point of Sale): CS 3365 Team Based Project Proposal 
+# Store Application (Point of Sale): CS-3365 - Spring 2020 - TTU
 
     
 
-Team Members: 
+## Team Members: 
 
-* Gaurav ShilpakarR11521961 
-* Pranesh ShresthaR11521976  
-* Raju Khadka R11536576 
-* Sudesh Subedi R11621320 
-* Utkrist Bhandari R11537543 
+* Gaurav Shilpakar  R11521961 
+* Pranesh Shrestha  R11521976  
+* Raju Khadka   R11536576 
+* Sudesh Subedi     R11621320 
+* Utkrist Bhandari  R11537543 
 
  
-
+## Description
 A Java application that allows purchase, inventory and financial management of goods at a store. The functionalities would include: 
 
 * Addition of new items to the store 
