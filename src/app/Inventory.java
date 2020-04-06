@@ -23,7 +23,7 @@ class Inventory {
         System.out.println("Enter a Item name: ");
         while (in1.hasNext("")) {
             System.out.println("Thats not a name");
-            in1.next();
+            in1.nextLine();
         }
         String itemName = in1.nextLine();
 
