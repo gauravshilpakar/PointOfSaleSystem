@@ -19,8 +19,8 @@ public class App {
             System.out.println("---------------------------------");
             System.out.println("Enter 1\t\tAdd Inventory");
             System.out.println("Enter 2\t\tDisplay all Items");
-            System.out.println("Enter 3\t\tQuicklookup");
-            System.out.println("Enter 4\t\tReporting");
+            System.out.println("Enter 3\t\tItem Lookup");
+            System.out.println("Enter 4\t\tSales Report");
             System.out.println("Enter 5\t\tSales");
             System.out.println("Enter 6\t\tTerminate");
             boolean notInt = true;
@@ -53,6 +53,7 @@ public class App {
 
             case (2):
                 inventory.displayInventory();
+                inventory.checkStock();
                 break;
 
             case (3):
@@ -60,9 +61,12 @@ public class App {
                 break;
 
             case (4):
+                inventory.printReport();
                 break;
 
             case (5):
+                inventory.displayInventory();
+                inventory.sales();
                 break;
 
             case (6):

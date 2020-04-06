@@ -17,26 +17,34 @@ class data {
 
 class Inventory {
     public static HashMap<String, data> Inventory = new HashMap<>();
-    Scanner in1 = new Scanner(System.in);
+    public static HashMap<String, data> Sold = new HashMap<>();
 
     void addInventory() {
-        System.out.println("Enter a Item name: ");
+        System.out.println("\nAdding items to inventory!");
+        Scanner in1 = new Scanner(System.in);
+        System.out.print("Enter name of the item: ");
+        // a number can be a valid string for item name
         while (in1.hasNext("")) {
+<<<<<<< HEAD
             System.out.println("Thats not a name");
             in1.nextLine();
+=======
+            System.out.println("Please Enter a Name.");
+            in1.next();
+>>>>>>> fb5ee9cfe7d6653f3c982e4261804669f09273d7
         }
         String itemName = in1.nextLine();
 
-        System.out.println("Enter price: ");
+        System.out.print("Enter price: ");
         while (!in1.hasNextDouble()) {
-            System.out.println("Input valid Integer");
+            System.out.println("Input a Valid Integer.");
             in1.next();
         }
         double price = in1.nextDouble();
 
-        System.out.println("Enter Stock: ");
+        System.out.print("Enter Stock Quantity: ");
         while (!in1.hasNextInt()) {
-            System.out.println("Input valid Integer");
+            System.out.println("Input a Valid Integer.");
             in1.next();
         }
         int stock = in1.nextInt();
@@ -50,10 +58,11 @@ class Inventory {
             Inventory.put(itemName, new data(stock, price));
             System.out.println(itemName + " added to inventory.\n");
         }
+
     }
 
     void displayInventory() {
-        System.out.println("\nItem\t\tQuantity\t\tPrice");
+        System.out.println("\nItem\t\tQuantity\tPrice");
         if (!Inventory.isEmpty()) {
             for (Map.Entry<String, data> entry : Inventory.entrySet()) {
                 System.out.println(entry.getKey() + "\t\t" + entry.getValue().stock + "\t\t" + entry.getValue().price);
@@ -63,12 +72,13 @@ class Inventory {
     }
 
     void quickLookup() {
+        Scanner in3 = new Scanner(System.in);
         System.out.println("Enter the item name: ");
-        while (in1.hasNext("")) {
+        while (in3.hasNext("")) {
             System.out.println("Thats not a name");
-            in1.next();
+            in3.next();
         }
-        String itemName = in1.nextLine();
+        String itemName = in3.nextLine();
         if (Inventory.containsKey(itemName)) {
             System.out.println("Item\t\tQuantity\t\tPrice");
             System.out.println(
@@ -76,14 +86,76 @@ class Inventory {
         } else {
             System.out.println("Item not found!\n");
         }
+    }
+
+    void sales() {
+        Scanner in2 = new Scanner(System.in);
+        if (!Inventory.isEmpty()) {
+            System.out.print("\nEnter name of item you want to buy: ");
+            String itemName = in2.nextLine();
+            if (Inventory.containsKey(itemName)) {
+                System.out.print("How many units of " + itemName + " do you want to buy? ");
+                while (!in2.hasNextInt()) {
+                    System.out.println("Input a Valid Integer.");
+                    in2.next();
+                }
+                int itemQuantity = in2.nextInt();
+
+                if (itemQuantity > Inventory.get(itemName).stock) {
+                    System.out.println("Unfortunately " + itemQuantity + " units of " + itemName
+                            + "is not currently in our stock!");
+                } else {
+                    Inventory.get(itemName).stock -= itemQuantity;
+                    System.out.println("You bought " + itemQuantity + " " + itemName + " at price "
+                            + itemQuantity * Inventory.get(itemName).price);
+
+                    if (Sold.containsKey(itemName)) {
+                        Sold.get(itemName).stock += itemQuantity;
+                    } else {
+                        Sold.put(itemName, new data(itemQuantity, Inventory.get(itemName).price * itemQuantity));
+
+                    }
+                }
+            }
+        } else {
+            System.out.println("Nothing in inventory!");
+        }
 
     }
 
-    // class oldStock extends Inventory {
+    void checkStock() {
+        Set<Map.Entry<String, data>> entrySet = Inventory.entrySet();
+        System.out.println("\nThe following items are low in stock: ");
+        for (Map.Entry<String, data> entry : entrySet) {
+            data data1 = entry.getValue();
+            if (data1.stock < 5) {
+                System.out.println(entry.getKey());
+            }
+        }
+    }
 
-    // @Override
-    // void addInventory(String item, int price, int quantity) {
+    void printReport() {
+        int totalQuantity = 0;
+        double totalAmount = 0;
 
-    // }
-    // }
+        if (!Sold.isEmpty()) {
+            System.out.println("\nItem\t\tQuantity\tPrice");
+
+            for (Map.Entry<String, data> entry : Sold.entrySet()) {
+                System.out.println(entry.getKey() + "\t\t" + entry.getValue().stock + "\t\t" + entry.getValue().price);
+                totalQuantity += entry.getValue().stock;
+                totalAmount += entry.getValue().price;
+            }
+            System.out.println("\nTotal\t\t" + totalQuantity + "\t\t" + totalAmount);
+        } else {
+            System.out.println("No Items Sold");
+        }
+    }
 }
+// class oldStock extends Inventory {
+
+// @Override
+// void addInventory(String item, int price, int quantity) {
+
+// }
+// }
