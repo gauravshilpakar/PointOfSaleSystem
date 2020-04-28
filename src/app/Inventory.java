@@ -25,13 +25,8 @@ class Inventory {
         System.out.print("Enter name of the item: ");
         // a number can be a valid string for item name
         while (in1.hasNext("")) {
-<<<<<<< HEAD
             System.out.println("Thats not a name");
             in1.nextLine();
-=======
-            System.out.println("Please Enter a Name.");
-            in1.next();
->>>>>>> fb5ee9cfe7d6653f3c982e4261804669f09273d7
         }
         String itemName = in1.nextLine();
 
