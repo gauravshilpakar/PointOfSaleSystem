@@ -1,25 +1,9 @@
 package app;
 
 import java.sql.ResultSet;
-
-import java.util.*;
 import java.util.Scanner;
 
-class data {
-    // update this to a database???
-
-    int stock;
-    double price;
-
-    public data(int stock, double price) {
-        this.stock = stock;
-        this.price = price;
-    }
-}
-
 class Inventory {
-    public static HashMap<String, data> Inventory = new HashMap<>();
-    public static HashMap<String, data> Sold = new HashMap<>();
 
     void addInventory() throws Exception {
         System.out.println("\nAdding items to inventory!");
@@ -48,7 +32,7 @@ class Inventory {
 
         Database.addItems(itemName, stock, price, "INVENTORY");
         System.out.println("Item Details...\n");
-        ResultSet rs = Database.checkItems(itemName);
+        ResultSet rs = Database.checkItems(itemName, "INVENTORY");
         while (rs.next()) {
             System.out.println("Item:\t" + rs.getString("name"));
             System.out.println("Stock:\t" + rs.getInt("stock"));
@@ -65,17 +49,11 @@ class Inventory {
             System.out.println(rs.getString("name") + "\t\t" + rs.getInt("stock") + "\t\t" + rs.getString("price"));
         }
         System.out.println("------------------------------------");
-        // if (!Inventory.isEmpty()) {
-        // for (Map.Entry<String, data> entry : Inventory.entrySet()) {
-        // System.out.println(entry.getKey() + "\t\t" + entry.getValue().stock + "\t\t"
-        // + entry.getValue().price);
-        // }
-        // }
         System.out.println("\n");
         rs.close();
     }
 
-    void quickLookup() {
+    void quickLookup() throws Exception {
         Scanner in3 = new Scanner(System.in);
         System.out.println("Enter the item name: ");
         while (in3.hasNext("")) {
@@ -83,12 +61,20 @@ class Inventory {
             in3.next();
         }
         String itemName = in3.nextLine();
-        if (Inventory.containsKey(itemName)) {
-            System.out.println("Item\t\tQuantity\t\tPrice");
-            System.out.println(
-                    itemName + "\t\t" + Inventory.get(itemName).stock + "\t\t" + Inventory.get(itemName).price);
+        ResultSet isEmpty = Database.checkItems(itemName, "INVENTORY");
+        if (isEmpty.next()) {
+            isEmpty.close();
+            System.out.println("\nItem\t\tQuantity\tPrice");
+            System.out.println("------------------------------------");
+
+            ResultSet rs = Database.checkItems(itemName, "INVENTORY");
+            while (rs.next()) {
+                System.out.println(rs.getString("name") + "\t\t" + rs.getInt("stock") + "\t\t" + rs.getString("price"));
+            }
+            System.out.println("------------------------------------");
+
         } else {
-            System.out.println("Item not found!\n");
+            System.out.println("The selected item is not currently present in our inventory!");
         }
     }
 
@@ -99,7 +85,7 @@ class Inventory {
             checkEmpty.close();
             System.out.print("\nEnter name of item you want to buy: ");
             String itemName = in2.nextLine();
-            ResultSet rs = Database.checkItems(itemName);
+            ResultSet rs = Database.checkItems(itemName, "INVENTORY");
 
             String queryName = null;
             int queryStock = 0;
@@ -111,8 +97,7 @@ class Inventory {
                 queryPrice = rs.getDouble("price");
             }
             rs.close();
-            System.out.println(queryName);
-            System.out.println(itemName);
+            System.out.println("Selected Item: " + queryName);
             if (queryName.equals(itemName)) {
                 System.out.print("\nHow many units of " + itemName + " do you want to buy? ");
                 while (!in2.hasNextInt()) {
@@ -123,15 +108,14 @@ class Inventory {
 
                 if (itemQuantity > queryStock) {
                     System.out.println("Unfortunately " + itemQuantity + " units of " + itemName
-                            + "is not currently in our stock!");
+                            + " is not currently in our stock!");
                 } else {
                     queryStock -= itemQuantity;
                     System.out.println(
                             "You bought " + itemQuantity + " " + itemName + " at price " + itemQuantity * queryPrice);
-                    ResultSet forUpdating = Database.checkItems(itemName);
+                    ResultSet forUpdating = Database.checkItems(itemName, "INVENTORY");
                     Database.updateItems(itemName, queryStock, queryPrice, forUpdating, "INVENTORY", false);
                     forUpdating.close();
-
                     Database.addItems(itemName, itemQuantity, queryPrice, "SALES");
                 }
             }
@@ -141,34 +125,44 @@ class Inventory {
 
     }
 
-    void checkStock() {
-        Set<Map.Entry<String, data>> entrySet = Inventory.entrySet();
+    void checkStock() throws Exception {
         System.out.println("\nThe following items are low in stock: ");
-        for (Map.Entry<String, data> entry : entrySet) {
-            data data1 = entry.getValue();
-            if (data1.stock < 5) {
-                System.out.println(entry.getKey());
+        System.out.println("Item\t\tQuantity");
+        System.out.println("------------------------------------");
+        ResultSet rs = Database.checkAll("INVENTORY");
+
+        while (rs.next()) {
+            String name = rs.getString("name");
+            int stock = rs.getInt("stock");
+
+            if (stock <= 5) {
+                System.out.println(name + "\t\t" + stock);
             }
         }
+
     }
 
     void printReport() throws Exception {
         int totalQuantity = 0;
         double totalAmount = 0;
         ResultSet isEmpty = Database.checkAll("SALES");
-
         if (isEmpty.next()) {
             isEmpty.close();
-            System.out.println("\nItem\t\tQuantity\tPrice");
+            System.out.println("\nItem\t\tQuantity\tNet Sales");
             ResultSet rs = Database.checkAll("SALES");
 
             while (rs.next()) {
-                System.out.println(rs.getString("name") + "\t\t" + rs.getInt("stock") + "\t\t" + rs.getString("price"));
+                String name = rs.getString("name");
+                int stock = rs.getInt("stock");
+                double price = rs.getDouble("price");
+                totalAmount += stock * price;
+                totalQuantity += stock;
+                System.out.println(name + "\t\t" + stock + "\t\t" + stock * price);
             }
             System.out.println("\nTotal\t\t" + totalQuantity + "\t\t" + totalAmount);
+
         } else {
             System.out.println("No Items Sold");
         }
     }
-
 }
