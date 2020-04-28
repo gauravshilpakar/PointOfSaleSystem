@@ -9,12 +9,9 @@ package app;
  *
  * @author
  */
-public class CreditCardPayment extends Payment {
+public class CreditCardPayment {
 
-    public CreditCardPayment(double d, String fred, String string, String string0) {
-    }
-
-    CreditCardPayment(double d, String raju, String string, String string0) {
+    public CreditCardPayment(double d, String raju, String string, String string0) {
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
                                                                        // Tools | Templates.
     }

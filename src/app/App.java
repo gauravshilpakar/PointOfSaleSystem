@@ -47,31 +47,31 @@ public class App {
             switch (number)
 
             {
-            case (1):
-                inventory.addInventory();
-                break;
+                case (1):
+                    inventory.addInventory();
+                    break;
 
-            case (2):
-                inventory.displayInventory();
-                inventory.checkStock();
-                break;
+                case (2):
+                    inventory.displayInventory();
+                    inventory.checkStock();
+                    break;
 
-            case (3):
-                inventory.quickLookup();
-                break;
+                case (3):
+                    inventory.quickLookup();
+                    break;
 
-            case (4):
-                inventory.printReport();
-                break;
+                case (4):
+                    inventory.printReport();
+                    break;
 
-            case (5):
-                inventory.displayInventory();
-                inventory.sales();
-                break;
+                case (5):
+                    inventory.displayInventory();
+                    inventory.sales();
+                    break;
 
-            case (6):
-                System.out.println("Terminating!\n");
-                break;
+                case (6):
+                    System.out.println("Terminating!\n");
+                    break;
 
             }
         }

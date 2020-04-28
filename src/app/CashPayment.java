@@ -9,14 +9,17 @@ package app;
  *
  * @author
  */
-public class CashPayment extends Payment {
+public class CashPayment {
+    public boolean status = false;
 
-    public CashPayment(double d) {
-    }
-
-    CashPayment(double d) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+    public CashPayment(double givenCash, double totalPrice) {
+        if (givenCash < totalPrice) {
+            System.out.println("Insufficient Amount");
+        } else {
+            double change = givenCash - totalPrice;
+            System.out.println("Change owed: " + change);
+            status = true;
+        }
     }
 
 }
