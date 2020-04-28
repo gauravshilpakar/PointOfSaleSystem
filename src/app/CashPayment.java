@@ -1,22 +1,24 @@
-package app;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+// package app;
+// /*
+// * To change this license header, choose License Headers in Project
+// Properties.
+// * To change this template file, choose Tools | Templates
+// * and open the template in the editor.
+// */
 
-/**
- *
- * @author
- */
-public class CashPayment extends Payment {
+// /**
+// *
+// * @author
+// */
+// public class CashPayment extends Payment {
 
-    public CashPayment(double d) {
-    }
+// public CashPayment(double d) {
+// }
 
-    CashPayment(double d) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
-    }
+// CashPayment(double d) {
+// throw new UnsupportedOperationException("Not supported yet."); // To change
+// body of generated methods, choose
+// // Tools | Templates.
+// }
 
-}
+// }
