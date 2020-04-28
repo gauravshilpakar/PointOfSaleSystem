@@ -103,16 +103,19 @@ class Inventory {
                 } else {
                     double totalPrice = itemQuantity * Inventory.get(itemName).price;
                     System.out.println("Grand Total: " + totalPrice);
-                    payment.payment(totalPrice);
-                    Inventory.get(itemName).stock -= itemQuantity;
-                    System.out.println("You bought " + itemQuantity + " " + itemName + " at price "
-                            + itemQuantity * Inventory.get(itemName).price);
+                    boolean paymentStatus = payment.payment(totalPrice);
+                    if (paymentStatus == true) {
+                        Inventory.get(itemName).stock -= itemQuantity;
+                        System.out.println("You bought " + itemQuantity + " " + itemName + " at price "
+                                + itemQuantity * Inventory.get(itemName).price);
 
-                    if (Sold.containsKey(itemName)) {
-                        Sold.get(itemName).stock += itemQuantity;
+                        if (Sold.containsKey(itemName)) {
+                            Sold.get(itemName).stock += itemQuantity;
+                        } else {
+                            Sold.put(itemName, new data(itemQuantity, Inventory.get(itemName).price * itemQuantity));
+                        }
                     } else {
-                        Sold.put(itemName, new data(itemQuantity, Inventory.get(itemName).price * itemQuantity));
-
+                        System.out.println("Payment Declined");
                     }
                 }
             }

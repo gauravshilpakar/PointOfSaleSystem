@@ -6,6 +6,7 @@
     "configurations": [
         {
             "type": "java",
+<<<<<<< HEAD
             "name": "CodeLens (Launch) - Payment",
             "request": "launch",
             "mainClass": "app.Payment",
@@ -16,6 +17,11 @@
             "name": "CodeLens (Launch) - database",
             "request": "launch",
             "mainClass": "app.database",
+=======
+            "name": "CodeLens (Launch) - Database",
+            "request": "launch",
+            "mainClass": "app.Database",
+>>>>>>> 89bfdd8e49a39c655c89b031b3aba26c1452f121
             "projectName": "SWE-3365"
         },
         {

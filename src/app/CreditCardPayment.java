@@ -1,19 +1,20 @@
 package app;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author
- */
+import java.util.Scanner;
+
 public class CreditCardPayment {
+    boolean status = false;
 
-    public CreditCardPayment(double d, String raju, String string, String string0) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-                                                                       // Tools | Templates.
+    public CreditCardPayment(double totalPrice) {
+        Scanner in5 = new Scanner(System.in);
+        System.out.println("Enter Card No: ");
+        int card_no = in5.nextInt();
+        System.out.println("Enter Expiry Date: ");
+        in5.next();
+        String expiry = in5.nextLine();
+        System.out.println("Enter ZipCode: ");
+        int zipcode = in5.nextInt();
+        status = true;
     }
 
 }
