@@ -102,6 +102,7 @@ class Inventory {
                             + "is not currently in our stock!");
                 } else {
                     double totalPrice = itemQuantity * Inventory.get(itemName).price;
+                    System.out.println("Grand Total: " + totalPrice);
                     payment.payment(totalPrice);
                     Inventory.get(itemName).stock -= itemQuantity;
                     System.out.println("You bought " + itemQuantity + " " + itemName + " at price "
