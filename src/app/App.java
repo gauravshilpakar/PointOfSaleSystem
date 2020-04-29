@@ -4,19 +4,18 @@ import java.util.*;
 
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         Inventory inventory = new Inventory();
-        // inventory.addInventory();
-
         Scanner input = new Scanner(System.in);
-
+        // Initializing the database!
+        Database.startup();
         int number = 0;
-        System.out.println("---------------------------------");
+        System.out.println("------------------------------------");
         System.out.println("Welcome to Application");
 
         while (number != 6) {
-            System.out.println("---------------------------------");
+            System.out.println("------------------------------------");
             System.out.println("Enter 1\t\tAdd Inventory");
             System.out.println("Enter 2\t\tDisplay all Items");
             System.out.println("Enter 3\t\tItem Lookup");
@@ -53,11 +52,11 @@ public class App {
 
                 case (2):
                     inventory.displayInventory();
-                    inventory.checkStock();
+                    // inventory.checkStock();
                     break;
 
                 case (3):
-                    inventory.quickLookup();
+                    // inventory.quickLookup();
                     break;
 
                 case (4):

@@ -3,7 +3,7 @@ package app;
 import java.util.Scanner;
 
 public class Payment {
-    public boolean payment(double totalPrice) {
+    public boolean payment(double totalPrice) throws Exception {
         Scanner in3 = new Scanner(System.in);
         System.out.println("Please Select Payment Option: ");
         System.out.println("1.\t\tCash");
