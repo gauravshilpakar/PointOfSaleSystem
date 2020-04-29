@@ -1,3 +1,4 @@
 .vscode
 .settings
 project.code-workspace
+data/store.db
