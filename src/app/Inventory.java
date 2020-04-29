@@ -79,6 +79,7 @@ class Inventory {
     }
 
     void sales() throws Exception {
+        Payment payment = new Payment();
         Scanner in2 = new Scanner(System.in);
         ResultSet checkEmpty = Database.checkAll("INVENTORY");
         if (checkEmpty.next()) {
@@ -110,13 +111,26 @@ class Inventory {
                     System.out.println("Unfortunately " + itemQuantity + " units of " + itemName
                             + " is not currently in our stock!");
                 } else {
-                    queryStock -= itemQuantity;
-                    System.out.println(
-                            "You bought " + itemQuantity + " " + itemName + " at price " + itemQuantity * queryPrice);
-                    ResultSet forUpdating = Database.checkItems(itemName, "INVENTORY");
-                    Database.updateItems(itemName, queryStock, queryPrice, forUpdating, "INVENTORY", false);
-                    forUpdating.close();
-                    Database.addItemsSales(itemName, itemQuantity, queryPrice, "SALES", "CASH");
+                    double totalPrice = itemQuantity * queryPrice;
+                    System.out.println("Grand Total: " + totalPrice);
+                    boolean paymentStatus = payment.payment(totalPrice);
+                    String transType;
+                    if (payment.isCashTransaction) {
+                        transType = "CASH";
+                    } else {
+                        transType = "CARD";
+                    }
+                    if (paymentStatus) {
+                        queryStock -= itemQuantity;
+                        System.out.println("You bought " + itemQuantity + " " + itemName + " at price "
+                                + itemQuantity * queryPrice);
+                        ResultSet forUpdating = Database.checkItems(itemName, "INVENTORY");
+                        Database.updateItems(itemName, queryStock, queryPrice, forUpdating, "INVENTORY", false);
+                        forUpdating.close();
+                        Database.addItemsSales(itemName, itemQuantity, queryPrice, "SALES", transType);
+                    } else {
+                        System.out.println("Payment Declined!!");
+                    }
                 }
             }
         } else {
@@ -158,7 +172,7 @@ class Inventory {
                 String type = rs.getString("transactionType");
                 totalAmount += stock * price;
                 totalQuantity += stock;
-                System.out.println(name + "\t\t" + stock + "\t" + stock * price + "\t" + type);
+                System.out.println(name + "\t\t" + stock + "\t\t" + stock * price + "\t\t" + type);
             }
             System.out.println("\nTotal\t\t" + totalQuantity + "\t\t" + totalAmount);
 

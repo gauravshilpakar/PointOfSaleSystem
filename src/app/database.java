@@ -43,6 +43,20 @@ class Database {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+        String sqlCredit = "CREATE TABLE IF NOT EXISTS CREDITSALES (\n " + "	id integer PRIMARY KEY,\n"
+                + "	card_no integer NOT NULL,\n" + " expiry_date text NOT NULL,\n" + "	zipcode integer,\n"
+                + "  totalPrice double(4,2)\n" + ");";
+
+        try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
+            // create a new table
+            stmt.execute(sqlCredit);
+            stmt.close();
+            conn.close();
+            System.out.println("Table Has been Created!");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public static void addItems(String name, int stock, double price, String tableName) throws Exception {
@@ -146,6 +160,42 @@ class Database {
         }
     }
 
+    public static void dropTable(String tableName) {
+        String sql = String.format("DROP TABLE %s;", tableName);
+        try (Connection conn = connect();
+                Statement stmt = conn.createStatement();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+            pstmt.close();
+            conn.close();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void creditTransaction(int card_no, String expiry_date, int zipcode, double totalPrice,
+            String tableName) throws Exception {
+
+        System.out.println("\nAdding...");
+        String sql = String.format("INSERT INTO %s(card_no,expiry_date,zipcode,totalPrice) VALUES(?,?,?,?);",
+                tableName);
+        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, card_no);
+            pstmt.setString(2, expiry_date);
+            pstmt.setInt(3, zipcode);
+            pstmt.setDouble(4, totalPrice);
+            pstmt.executeUpdate();
+            pstmt.close();
+            conn.close();
+            System.out.println("Credit Card Transaction Successful!!");
+            System.out.println("Thank You for Shopping with Us.");
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
     public static ResultSet checkAll(String tableName) throws Exception {
         String sql = String.format("SELECT * FROM '%s';", tableName);
         Connection conn = connect();
@@ -179,8 +229,9 @@ class Database {
 
     public static void startup() throws Exception {
         System.setOut(new PrintStream(new NullOutputStream()));
-        deleteAll("INVENTORY");
-        deleteAll("SALES");
+        dropTable("INVENTORY");
+        dropTable("SALES");
+        dropTable("CREDITSALES");
         createTable();
         addItems("fanta", 10, 2.89, "INVENTORY");
         addItems("coke", 2, 2.89, "INVENTORY");

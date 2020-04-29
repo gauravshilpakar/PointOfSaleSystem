@@ -52,11 +52,11 @@ public class App {
 
                 case (2):
                     inventory.displayInventory();
-                    inventory.checkStock();
+                    // inventory.checkStock();
                     break;
 
                 case (3):
-                    inventory.quickLookup();
+                    // inventory.quickLookup();
                     break;
 
                 case (4):
