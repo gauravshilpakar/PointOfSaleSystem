@@ -1,5 +1,7 @@
 package app;
 
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -19,8 +21,7 @@ class Database {
     }
 
     public static void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS INVENTORY (\n" + "	id integer PRIMARY KEY,\n"
-                + "	name  text NOT NULL,\n" + "	stock integer,\n" + "	price double(4,2)\n" + ");";
+        String sql = "CREATE TABLE IF NOT EXISTS INVENTORY (id integer PRIMARY KEY,\nname text NOT NULL,\nstock integer,\nprice double(4,2)\n);";
 
         try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
             // create a new table
@@ -31,8 +32,7 @@ class Database {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        String sqlSales = "CREATE TABLE IF NOT EXISTS SALES (\n" + "	id integer PRIMARY KEY,\n"
-                + "	name  text NOT NULL,\n" + "	stock integer,\n" + "	price double(4,2)\n" + ");";
+        String sqlSales = "CREATE TABLE IF NOT EXISTS SALES (id integer PRIMARY KEY,\nname text NOT NULL,\nstock integer,\nprice double(4,2),\ntransactionType text\n);";
 
         try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
             // create a new table
@@ -60,14 +60,14 @@ class Database {
     }
 
     public static void addItems(String name, int stock, double price, String tableName) throws Exception {
-        ResultSet result = checkItems(name);
+        ResultSet result = checkItems(name, tableName);
         String checkName = "";
         while (result.next()) {
             checkName = result.getString("name");
         }
         if (checkName != "") {
             System.out.println("\nUpdating...");
-            updateItems(name, stock, price, checkItems(name), tableName, true);
+            updateItems(name, stock, price, checkItems(name, tableName), tableName, true);
         } else {
             System.out.println("\nAdding...");
             String sql = String.format("INSERT INTO %s(name,stock, price) VALUES(?,?,?);", tableName);
@@ -78,11 +78,35 @@ class Database {
                 pstmt.executeUpdate();
                 pstmt.close();
                 conn.close();
-                System.out.println(name + " (" + stock + ")" + " at price $" + price + " added to inventory.");
+                if (tableName == "INVENTORY") {
+                    System.out.println(name + " (" + stock + ")" + " at price $" + price + " added to inventory.");
+                }
 
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    public static void addItemsSales(String name, int stock, double price, String tableName, String transactionType)
+            throws Exception {
+        // System.out.println("\nAdding...");
+        String sql = String.format("INSERT INTO %s(name,stock, price, transactionType) VALUES(?,?,?,?);", tableName);
+        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setInt(2, stock);
+            pstmt.setDouble(3, price);
+            pstmt.setString(4, transactionType);
+            pstmt.executeUpdate();
+            pstmt.close();
+            conn.close();
+            // if (tableName == "INVENTORY") {
+            // System.out.println(name + " (" + stock + ")" + " at price $" + price + "
+            // added to inventory.");
+            // }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -92,12 +116,11 @@ class Database {
         int oldId = 0;
         String oldName = null;
         int oldStock = 0;
-        double oldPrice = 0;
         while (result.next()) {
             oldId = result.getInt("id");
             oldName = result.getString("name");
             oldStock = result.getInt("stock");
-            oldPrice = result.getDouble("price");
+            result.getDouble("price");
         }
         if (addition) {
             stock += oldStock;
@@ -115,8 +138,8 @@ class Database {
 
     }
 
-    public static ResultSet checkItems(String name) throws Exception {
-        String sql = "SELECT * FROM INVENTORY WHERE NAME= '" + name + "';";
+    public static ResultSet checkItems(String name, String tableName) throws Exception {
+        String sql = String.format("SELECT * FROM %s WHERE NAME= '%s';", tableName, name);
         Connection conn = connect();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
@@ -182,7 +205,30 @@ class Database {
         return rs;
     }
 
+    private static PrintStream realSystemOut = System.out;
+
+    private static class NullOutputStream extends OutputStream {
+        @Override
+        public void write(int b) {
+            return;
+        }
+
+        @Override
+        public void write(byte[] b) {
+            return;
+        }
+
+        @Override
+        public void write(byte[] b, int off, int len) {
+            return;
+        }
+
+        public NullOutputStream() {
+        }
+    }
+
     public static void startup() throws Exception {
+        System.setOut(new PrintStream(new NullOutputStream()));
         dropTable("INVENTORY");
         dropTable("SALES");
         dropTable("CREDITSALES");
@@ -193,10 +239,7 @@ class Database {
         addItems("lays", 40, 1.89, "INVENTORY");
         addItems("cheetos", 40, 1.89, "INVENTORY");
         addItems("budweiser", 10, 18.99, "INVENTORY");
-        ResultSet rs = checkItems("budweiser");
-        while (rs.next()) {
-            System.out.println(rs.getString("name"));
-        }
+        System.setOut(realSystemOut);
     }
 
     public static void main(String[] args) throws Exception {

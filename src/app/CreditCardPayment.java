@@ -14,7 +14,6 @@ public class CreditCardPayment {
         // Read the leftover new line
         in5.nextLine();
         String expiry_date = in5.nextLine();
-        System.out.println(expiry_date);
         System.out.println("Enter ZipCode: ");
         int zipcode = in5.nextInt();
         Database.creditTransaction(card_no, expiry_date, zipcode, totalPrice, "CREDITSALES");

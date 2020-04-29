@@ -1,7 +1,5 @@
 package app;
 
-import java.sql.ResultSet;
-
 public class CashPayment {
     public boolean status = false;
 
