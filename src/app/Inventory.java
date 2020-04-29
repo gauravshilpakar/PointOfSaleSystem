@@ -116,7 +116,7 @@ class Inventory {
                     ResultSet forUpdating = Database.checkItems(itemName, "INVENTORY");
                     Database.updateItems(itemName, queryStock, queryPrice, forUpdating, "INVENTORY", false);
                     forUpdating.close();
-                    Database.addItems(itemName, itemQuantity, queryPrice, "SALES");
+                    Database.addItemsSales(itemName, itemQuantity, queryPrice, "SALES", "CASH");
                 }
             }
         } else {
@@ -148,16 +148,17 @@ class Inventory {
         ResultSet isEmpty = Database.checkAll("SALES");
         if (isEmpty.next()) {
             isEmpty.close();
-            System.out.println("\nItem\t\tQuantity\tNet Sales");
+            System.out.println("\nItem\t\tQuantity\tNet Sales\tTransaction");
             ResultSet rs = Database.checkAll("SALES");
 
             while (rs.next()) {
                 String name = rs.getString("name");
                 int stock = rs.getInt("stock");
                 double price = rs.getDouble("price");
+                String type = rs.getString("transactionType");
                 totalAmount += stock * price;
                 totalQuantity += stock;
-                System.out.println(name + "\t\t" + stock + "\t\t" + stock * price);
+                System.out.println(name + "\t\t" + stock + "\t" + stock * price + "\t" + type);
             }
             System.out.println("\nTotal\t\t" + totalQuantity + "\t\t" + totalAmount);
 

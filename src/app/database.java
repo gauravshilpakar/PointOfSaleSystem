@@ -21,8 +21,7 @@ class Database {
     }
 
     public static void createTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS INVENTORY (\n" + "	id integer PRIMARY KEY,\n"
-                + "	name  text NOT NULL,\n" + "	stock integer,\n" + "	price double(4,2)\n" + ");";
+        String sql = "CREATE TABLE IF NOT EXISTS INVENTORY (id integer PRIMARY KEY,\nname text NOT NULL,\nstock integer,\nprice double(4,2)\n);";
 
         try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
             // create a new table
@@ -33,8 +32,7 @@ class Database {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        String sqlSales = "CREATE TABLE IF NOT EXISTS SALES (\n" + "	id integer PRIMARY KEY,\n"
-                + "	name  text NOT NULL,\n" + "	stock integer,\n" + "	price double(4,2)\n" + ");";
+        String sqlSales = "CREATE TABLE IF NOT EXISTS SALES (id integer PRIMARY KEY,\nname text NOT NULL,\nstock integer,\nprice double(4,2),\ntransactionType text\n);";
 
         try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
             // create a new table
@@ -73,6 +71,28 @@ class Database {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
+        }
+    }
+
+    public static void addItemsSales(String name, int stock, double price, String tableName, String transactionType)
+            throws Exception {
+        // System.out.println("\nAdding...");
+        String sql = String.format("INSERT INTO %s(name,stock, price, transactionType) VALUES(?,?,?,?);", tableName);
+        try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, name);
+            pstmt.setInt(2, stock);
+            pstmt.setDouble(3, price);
+            pstmt.setString(4, transactionType);
+            pstmt.executeUpdate();
+            pstmt.close();
+            conn.close();
+            // if (tableName == "INVENTORY") {
+            // System.out.println(name + " (" + stock + ")" + " at price $" + price + "
+            // added to inventory.");
+            // }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
