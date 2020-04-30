@@ -16,6 +16,7 @@ A Java application that allows purchase, inventory and financial management of g
 
 * Addition of new items to the store 
 * Quick price lookups for multiple items of same type 
+* Customer Reward credit 
 * Detailed product sales and report 
 * Credit/Cash Transactions 
 * Intuitive Graphical User Interface 
