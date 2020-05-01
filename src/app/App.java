@@ -22,6 +22,7 @@ public class App {
             System.out.println("Enter 4\t\tSales Report");
             System.out.println("Enter 5\t\tSales");
             System.out.println("Enter 6\t\tTerminate");
+
             boolean notInt = true;
 
             // validates input for an integer and if within range

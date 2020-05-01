@@ -8,11 +8,12 @@ public class CreditCardPayment {
     public CreditCardPayment(double totalPrice) throws Exception {
         Scanner in5 = new Scanner(System.in);
         System.out.println("Enter Card No: ");
-        int card_no = in5.nextInt();
+
+        String card_no = in5.nextLine();
         System.out.println("Enter Expiry Date: ");
 
         // Read the leftover new line
-        in5.nextLine();
+
         String expiry_date = in5.nextLine();
         System.out.println("Enter ZipCode: ");
         int zipcode = in5.nextInt();

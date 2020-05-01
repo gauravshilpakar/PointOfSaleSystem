@@ -45,7 +45,7 @@ class Database {
         }
 
         String sqlCredit = "CREATE TABLE IF NOT EXISTS CREDITSALES (\n " + "	id integer PRIMARY KEY,\n"
-                + "	card_no integer NOT NULL,\n" + " expiry_date text NOT NULL,\n" + "	zipcode integer,\n"
+                + "	card_no text NOT NULL,\n" + " expiry_date text NOT NULL,\n" + "	zipcode integer,\n"
                 + "  totalPrice double(4,2)\n" + ");";
 
         try (Connection conn = connect(); Statement stmt = conn.createStatement()) {
@@ -173,14 +173,14 @@ class Database {
         }
     }
 
-    public static void creditTransaction(int card_no, String expiry_date, int zipcode, double totalPrice,
+    public static void creditTransaction(String card_no, String expiry_date, int zipcode, double totalPrice,
             String tableName) throws Exception {
 
         System.out.println("\nAdding...");
         String sql = String.format("INSERT INTO %s(card_no,expiry_date,zipcode,totalPrice) VALUES(?,?,?,?);",
                 tableName);
         try (Connection conn = connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, card_no);
+            pstmt.setString(1, card_no);
             pstmt.setString(2, expiry_date);
             pstmt.setInt(3, zipcode);
             pstmt.setDouble(4, totalPrice);
