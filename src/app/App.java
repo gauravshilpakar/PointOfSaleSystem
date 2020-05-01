@@ -9,7 +9,7 @@ public class App {
         Inventory inventory = new Inventory();
         Scanner input = new Scanner(System.in);
         // Initializing the database!
-        // Database.startup();
+         Database.startup();
         int number = 0;
         System.out.println("------------------------------------");
         System.out.println("Welcome to Application");
