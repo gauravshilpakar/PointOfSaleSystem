@@ -9,7 +9,7 @@ public class App {
         Inventory inventory = new Inventory();
         Scanner input = new Scanner(System.in);
         // Initializing the database!
-        Database.startup();
+        // Database.startup();
         int number = 0;
         System.out.println("------------------------------------");
         System.out.println("Welcome to Application");
@@ -24,7 +24,7 @@ public class App {
             System.out.println("Enter 6\t\tTerminate");
             boolean notInt = true;
 
-            // validates input for an integer and if within range
+            // validates input for an integer and if with that range
             while (notInt) {
                 try {
                     while (true) {
