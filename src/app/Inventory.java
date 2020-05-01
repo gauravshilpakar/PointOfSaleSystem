@@ -6,7 +6,7 @@ import java.util.Scanner;
 class Inventory {
 
     void addInventory() throws Exception {
-        UserInterface.Display();
+        // UI.Display();
         System.out.println("\nAdding items to inventory!");
         Scanner in1 = new Scanner(System.in);
         System.out.print("Enter name of the item: ");
