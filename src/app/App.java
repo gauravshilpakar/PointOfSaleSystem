@@ -24,7 +24,7 @@ public class App {
             System.out.println("Enter 6\t\tTerminate");
             boolean notInt = true;
 
-            // validates input for an integer and if within range
+            // validates input for an integer and if with that range
             while (notInt) {
                 try {
                     while (true) {
